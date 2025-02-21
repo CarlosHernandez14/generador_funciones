@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.signalsChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.trackBarFrequency = new System.Windows.Forms.TrackBar();
             this.lblFrequency = new System.Windows.Forms.Label();
@@ -43,8 +43,15 @@
             this.btnSquareSignal = new System.Windows.Forms.Button();
             this.btnSignalTriangular = new System.Windows.Forms.Button();
             this.btnSignalSenoidal = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.btnConnectSerial = new System.Windows.Forms.Button();
+            this.btnDisconnectSerial = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblSerialStatus = new System.Windows.Forms.Label();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.btnChangeColor = new System.Windows.Forms.Button();
+            this.buttonHertz = new System.Windows.Forms.Button();
+            this.btnKiloHertz = new System.Windows.Forms.Button();
+            this.btnMegaHertz = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.signalsChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarAmplittude)).BeginInit();
@@ -54,18 +61,18 @@
             // 
             // signalsChart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.signalsChart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.signalsChart.Legends.Add(legend1);
+            chartArea3.Name = "ChartArea1";
+            this.signalsChart.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.signalsChart.Legends.Add(legend3);
             this.signalsChart.Location = new System.Drawing.Point(1, -1);
             this.signalsChart.Name = "signalsChart";
-            series1.BorderWidth = 3;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Legend = "Legend1";
-            series1.Name = "Signal";
-            this.signalsChart.Series.Add(series1);
+            series3.BorderWidth = 3;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Legend = "Legend1";
+            series3.Name = "Signal";
+            this.signalsChart.Series.Add(series3);
             this.signalsChart.Size = new System.Drawing.Size(507, 510);
             this.signalsChart.TabIndex = 0;
             this.signalsChart.Text = "chart1";
@@ -73,6 +80,7 @@
             // trackBarFrequency
             // 
             this.trackBarFrequency.Location = new System.Drawing.Point(531, 213);
+            this.trackBarFrequency.Maximum = 1000000;
             this.trackBarFrequency.Name = "trackBarFrequency";
             this.trackBarFrequency.Size = new System.Drawing.Size(294, 45);
             this.trackBarFrequency.TabIndex = 1;
@@ -145,7 +153,7 @@
             // btnSquareSignal
             // 
             this.btnSquareSignal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSquareSignal.Location = new System.Drawing.Point(531, 45);
+            this.btnSquareSignal.Location = new System.Drawing.Point(531, 69);
             this.btnSquareSignal.Name = "btnSquareSignal";
             this.btnSquareSignal.Size = new System.Drawing.Size(120, 23);
             this.btnSquareSignal.TabIndex = 9;
@@ -156,7 +164,7 @@
             // btnSignalTriangular
             // 
             this.btnSignalTriangular.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSignalTriangular.Location = new System.Drawing.Point(531, 74);
+            this.btnSignalTriangular.Location = new System.Drawing.Point(531, 98);
             this.btnSignalTriangular.Name = "btnSignalTriangular";
             this.btnSignalTriangular.Size = new System.Drawing.Size(120, 23);
             this.btnSignalTriangular.TabIndex = 10;
@@ -167,7 +175,7 @@
             // btnSignalSenoidal
             // 
             this.btnSignalSenoidal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSignalSenoidal.Location = new System.Drawing.Point(531, 103);
+            this.btnSignalSenoidal.Location = new System.Drawing.Point(531, 127);
             this.btnSignalSenoidal.Name = "btnSignalSenoidal";
             this.btnSignalSenoidal.Size = new System.Drawing.Size(120, 23);
             this.btnSignalSenoidal.TabIndex = 11;
@@ -175,33 +183,104 @@
             this.btnSignalSenoidal.UseVisualStyleBackColor = true;
             this.btnSignalSenoidal.Click += new System.EventHandler(this.btnSignalSenoidal_Click);
             // 
-            // button4
+            // btnConnectSerial
             // 
-            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(707, 37);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(185, 39);
-            this.button4.TabIndex = 12;
-            this.button4.Text = "Conectar Puerto Serial";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnConnectSerial.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConnectSerial.Location = new System.Drawing.Point(695, 69);
+            this.btnConnectSerial.Name = "btnConnectSerial";
+            this.btnConnectSerial.Size = new System.Drawing.Size(185, 39);
+            this.btnConnectSerial.TabIndex = 12;
+            this.btnConnectSerial.Text = "Conectar Puerto Serial";
+            this.btnConnectSerial.UseVisualStyleBackColor = true;
+            this.btnConnectSerial.Click += new System.EventHandler(this.btnConnectSerial_Click);
             // 
-            // button5
+            // btnDisconnectSerial
             // 
-            this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Location = new System.Drawing.Point(707, 90);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(206, 36);
-            this.button5.TabIndex = 13;
-            this.button5.Text = "Desconectar Puerto Serial";
-            this.button5.UseVisualStyleBackColor = true;
+            this.btnDisconnectSerial.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDisconnectSerial.Location = new System.Drawing.Point(695, 114);
+            this.btnDisconnectSerial.Name = "btnDisconnectSerial";
+            this.btnDisconnectSerial.Size = new System.Drawing.Size(206, 36);
+            this.btnDisconnectSerial.TabIndex = 13;
+            this.btnDisconnectSerial.Text = "Desconectar Puerto Serial";
+            this.btnDisconnectSerial.UseVisualStyleBackColor = true;
+            this.btnDisconnectSerial.Click += new System.EventHandler(this.btnDisconnectSerial_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(693, 25);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(132, 18);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "Conexion Serial:";
+            // 
+            // lblSerialStatus
+            // 
+            this.lblSerialStatus.AutoSize = true;
+            this.lblSerialStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSerialStatus.ForeColor = System.Drawing.Color.Blue;
+            this.lblSerialStatus.Location = new System.Drawing.Point(693, 50);
+            this.lblSerialStatus.Name = "lblSerialStatus";
+            this.lblSerialStatus.Size = new System.Drawing.Size(108, 16);
+            this.lblSerialStatus.TabIndex = 15;
+            this.lblSerialStatus.Text = "Desconectado";
+            // 
+            // btnChangeColor
+            // 
+            this.btnChangeColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnChangeColor.ForeColor = System.Drawing.Color.Teal;
+            this.btnChangeColor.Location = new System.Drawing.Point(531, 25);
+            this.btnChangeColor.Name = "btnChangeColor";
+            this.btnChangeColor.Size = new System.Drawing.Size(120, 30);
+            this.btnChangeColor.TabIndex = 16;
+            this.btnChangeColor.Text = "Cambiar color";
+            this.btnChangeColor.UseVisualStyleBackColor = true;
+            this.btnChangeColor.Click += new System.EventHandler(this.btnChangeColor_Click);
+            // 
+            // buttonHertz
+            // 
+            this.buttonHertz.Location = new System.Drawing.Point(826, 180);
+            this.buttonHertz.Name = "buttonHertz";
+            this.buttonHertz.Size = new System.Drawing.Size(75, 23);
+            this.buttonHertz.TabIndex = 17;
+            this.buttonHertz.Text = "Hertz";
+            this.buttonHertz.UseVisualStyleBackColor = true;
+            this.buttonHertz.Click += new System.EventHandler(this.buttonHertz_Click);
+            // 
+            // btnKiloHertz
+            // 
+            this.btnKiloHertz.Location = new System.Drawing.Point(826, 209);
+            this.btnKiloHertz.Name = "btnKiloHertz";
+            this.btnKiloHertz.Size = new System.Drawing.Size(75, 23);
+            this.btnKiloHertz.TabIndex = 18;
+            this.btnKiloHertz.Text = "KiloHertz";
+            this.btnKiloHertz.UseVisualStyleBackColor = true;
+            this.btnKiloHertz.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btnKiloHertz_MouseClick);
+            // 
+            // btnMegaHertz
+            // 
+            this.btnMegaHertz.Location = new System.Drawing.Point(826, 238);
+            this.btnMegaHertz.Name = "btnMegaHertz";
+            this.btnMegaHertz.Size = new System.Drawing.Size(75, 23);
+            this.btnMegaHertz.TabIndex = 19;
+            this.btnMegaHertz.Text = "MegaHertz";
+            this.btnMegaHertz.UseVisualStyleBackColor = true;
+            this.btnMegaHertz.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btnMegaHertz_MouseClick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(925, 508);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.btnMegaHertz);
+            this.Controls.Add(this.btnKiloHertz);
+            this.Controls.Add(this.buttonHertz);
+            this.Controls.Add(this.btnChangeColor);
+            this.Controls.Add(this.lblSerialStatus);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btnDisconnectSerial);
+            this.Controls.Add(this.btnConnectSerial);
             this.Controls.Add(this.btnSignalSenoidal);
             this.Controls.Add(this.btnSignalTriangular);
             this.Controls.Add(this.btnSquareSignal);
@@ -240,8 +319,15 @@
         private System.Windows.Forms.Button btnSquareSignal;
         private System.Windows.Forms.Button btnSignalTriangular;
         private System.Windows.Forms.Button btnSignalSenoidal;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button btnConnectSerial;
+        private System.Windows.Forms.Button btnDisconnectSerial;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblSerialStatus;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Button btnChangeColor;
+        private System.Windows.Forms.Button buttonHertz;
+        private System.Windows.Forms.Button btnKiloHertz;
+        private System.Windows.Forms.Button btnMegaHertz;
     }
 }
 

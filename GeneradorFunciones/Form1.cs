@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,9 +18,10 @@ namespace GeneradorFunciones
     {
 
         // Serial port declaration
-        private SerialPort serialPort = new SerialPort("COM3", 9600);
+        // private SerialPort serialPort = new SerialPort("COM3", 9600);
         private bool isConnected = false;
         private FrequencyRange frequencyRange = FrequencyRange.HZ;
+        private int xIndex = 0; // Para llevar la cuenta de la muestra en el eje X
 
         // Enum to select the type of signal
         public enum SignalType
@@ -86,6 +88,23 @@ namespace GeneradorFunciones
             signalsChart.ChartAreas[0].AxisY.Maximum = amplitud + offset + 1;
 
             this.signalType = SignalType.SQUARE;
+        }
+
+        private void AgregarDatoAlChart(double valor)
+        {
+            // Añadir punto (xIndex, valor)
+            signalsChart.Series["Signal"].Points.AddXY(xIndex, valor);
+            xIndex++;
+
+            // Opcional: mantener un número limitado de puntos para no sobrecargar la gráfica
+            if (signalsChart.Series["Signal"].Points.Count > 200)
+            {
+                signalsChart.Series["Signal"].Points.RemoveAt(0);
+            }
+
+            // Opcional: mover el eje X para que simule un desplazamiento (scroll)
+            signalsChart.ChartAreas[0].AxisX.Minimum = xIndex - 200;
+            signalsChart.ChartAreas[0].AxisX.Maximum = xIndex;
         }
 
         private void GenerarSenalTriangular(double frecuencia, double amplitud, double offset, double simetria)
@@ -261,6 +280,22 @@ namespace GeneradorFunciones
                     isConnected = true;
                     // Set  the lbl to Connected
                     lblSerialStatus.Text = "Conectado";
+
+
+                    // Limpiar la serie
+                    signalsChart.Series["Signal"].Points.Clear();
+
+                    // Reiniciar xIndex
+                    xIndex = 0;
+
+                    // Forzar que los ejes se recalculen automáticamente
+                    signalsChart.ChartAreas[0].AxisX.Minimum = double.NaN;
+                    signalsChart.ChartAreas[0].AxisX.Maximum = double.NaN;
+                    signalsChart.ChartAreas[0].AxisY.Minimum = double.NaN;
+                    signalsChart.ChartAreas[0].AxisY.Maximum = double.NaN;
+                    signalsChart.ChartAreas[0].RecalculateAxesScale();
+
+
                     MessageBox.Show("Conectado al puerto serial.");
                 }
             }
@@ -278,6 +313,20 @@ namespace GeneradorFunciones
                 isConnected = false;
                 // Set  the lbl to Disconnected
                 lblSerialStatus.Text = "Desconectado";
+
+                // Limpiar la serie
+                signalsChart.Series["Signal"].Points.Clear();
+
+                // 🔹 Reiniciar xIndex
+                xIndex = 0;
+
+                // 🔹 Opción 1: Forzar que los ejes se recalculen automáticamente
+                signalsChart.ChartAreas[0].AxisX.Minimum = double.NaN;
+                signalsChart.ChartAreas[0].AxisX.Maximum = double.NaN;
+                signalsChart.ChartAreas[0].AxisY.Minimum = double.NaN;
+                signalsChart.ChartAreas[0].AxisY.Maximum = double.NaN;
+                signalsChart.ChartAreas[0].RecalculateAxesScale();
+
                 MessageBox.Show("Desconectado del puerto serial.");
             }
         }
@@ -311,6 +360,31 @@ namespace GeneradorFunciones
         {
             frequencyRange = FrequencyRange.MHZ;
             InicializarGrafica();
+        }
+
+        private void serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            try
+            {
+                // Lee la línea enviada desde Arduino
+                string data = serialPort.ReadLine();
+
+                // Convierte a número (puede ser double, float, etc.)
+                double valor = Convert.ToDouble(data);
+
+                // Para actualizar la UI (Chart) desde un hilo secundario,
+                // debes usar 'Invoke' o 'BeginInvoke'.
+                this.Invoke(new Action(() =>
+                {
+                    // Agrega el valor al Chart
+                    AgregarDatoAlChart(valor);
+                }));
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores de parseo u otros
+                Console.WriteLine("Error recibiendo datos: " + ex.Message);
+            }
         }
     }
 }

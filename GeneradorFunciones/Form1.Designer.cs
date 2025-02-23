@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -52,6 +53,7 @@
             this.buttonHertz = new System.Windows.Forms.Button();
             this.btnKiloHertz = new System.Windows.Forms.Button();
             this.btnMegaHertz = new System.Windows.Forms.Button();
+            this.serialPort = new System.IO.Ports.SerialPort(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.signalsChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarAmplittude)).BeginInit();
@@ -268,6 +270,11 @@
             this.btnMegaHertz.UseVisualStyleBackColor = true;
             this.btnMegaHertz.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btnMegaHertz_MouseClick);
             // 
+            // serialPort
+            // 
+            this.serialPort.PortName = "COM3";
+            this.serialPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort_DataReceived);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -328,6 +335,7 @@
         private System.Windows.Forms.Button buttonHertz;
         private System.Windows.Forms.Button btnKiloHertz;
         private System.Windows.Forms.Button btnMegaHertz;
+        private System.IO.Ports.SerialPort serialPort;
     }
 }
 
